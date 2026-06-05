@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>OscarMike10 — Family Wealth Tracker</title>
+<title>Dee & Alanna — Family Wealth Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
@@ -49,7 +49,7 @@ td{padding:8px 9px;border-bottom:1px solid rgba(255,255,255,0.04)}
   <div style="margin-bottom:8px">
     <span class="tag" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3)">FAMILY WEALTH TRACKER</span>
   </div>
-  <h1>OscarMike10 <span style="color:#34d399">&</span> Alanna</h1>
+  <h1>Dee <span style="color:#34d399">&</span> Alanna</h1>
   <p style="color:#64748b;font-size:12px;margin:4px 0 20px">VA Comp $4,428/mo · $1M Home · Investments · 529s · Emergency Fund · Retire 2040–2042</p>
 
   <!-- Nav Tabs -->
@@ -117,14 +117,18 @@ td{padding:8px 9px;border-bottom:1px solid rgba(255,255,255,0.04)}
         <span style="color:#94a3b8">Emergency Fund</span>
         <span style="color:#f472b6">−$400</span>
       </div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Home Improvement Fund <span style="font-size:10px;color:#475569">(popcorn, A/C, etc.)</span></span>
+        <span style="color:#f472b6">−$300</span>
+      </div>
       <div class="income-row" style="font-weight:500">
         <span style="color:#e2e8f0">Total to Funds</span>
-        <span style="color:#f472b6">−$1,965</span>
+        <span style="color:#f472b6">−$2,265</span>
       </div>
       <div class="divider"></div>
       <div class="income-row">
         <span style="color:#e2e8f0;font-weight:500">Living Expenses (food, utilities, gas, kids)</span>
-        <span style="color:#34d399;font-family:'Syne',sans-serif;font-size:20px;font-weight:800">$3,879/mo</span>
+        <span style="color:#34d399;font-family:'Syne',sans-serif;font-size:20px;font-weight:800">$3,579/mo</span>
       </div>
     </div>
 
@@ -360,6 +364,35 @@ td{padding:8px 9px;border-bottom:1px solid rgba(255,255,255,0.04)}
     <div class="note">
       <span style="color:#f59e0b">💡 Tip: </span>Keep emergency fund in a high-yield savings account (HYSA) — current rates ~4.5–5%. Recommended: Fidelity Cash Management, Marcus by Goldman Sachs, or Schwab Bank. Your VA comp alone covers emergencies but having 3–6 months liquid protects against unexpected home repairs on a $1M property.
     </div>
+
+    <!-- Home Improvement Fund -->
+    <h2 style="margin-top:8px">Home Improvement Fund</h2>
+    <div class="card" style="border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.04)">
+      <div style="font-size:10px;color:#64748b;margin-bottom:14px;letter-spacing:.05em">TARGET REPAIRS: POPCORN CEILINGS · A/C · MISC</div>
+      <div class="grid3" style="margin-bottom:14px">
+        <div><div class="stat-label">POPCORN REMOVAL EST.</div><div class="stat-val" style="color:#f59e0b">~$4,000</div></div>
+        <div><div class="stat-label">A/C UNIT EST.</div><div class="stat-val" style="color:#f59e0b">~$8,000</div></div>
+        <div><div class="stat-label">TOTAL TARGET</div><div class="stat-val" style="color:#f59e0b">~$15,000</div></div>
+      </div>
+      <div>
+        <div class="slider-row"><span style="font-size:11px">CURRENT BALANCE</span><span id="lbl-hi-bal" style="color:#f59e0b">$0</span></div>
+        <input type="range" id="s-hi-bal" min="0" max="15000" step="250" value="0" style="background:rgba(245,158,11,0.2)"/>
+      </div>
+      <div style="margin-top:14px">
+        <div style="font-size:10px;color:#64748b;margin-bottom:4px">CURRENT BALANCE</div>
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#f59e0b" id="hi-bal-disp">$0</div>
+        <div class="progress-wrap" style="margin-top:8px">
+          <div class="progress-fill" id="hi-progress" style="width:0%;background:linear-gradient(90deg,#f59e0b,#f472b6)"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#475569;margin-top:4px">
+          <span>$0</span><span id="hi-pct" style="color:#f59e0b">0% of $15K goal</span><span>$15K</span>
+        </div>
+        <div style="margin-top:14px;display:flex;gap:20px;flex-wrap:wrap">
+          <div><div class="stat-label">@ $300/MO — MONTHS TO GOAL</div><div class="stat-val" style="color:#f59e0b" id="hi-months">—</div></div>
+          <div><div class="stat-label">FULLY FUNDED BY</div><div class="stat-val" style="color:#f59e0b" id="hi-date">—</div></div>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- ═══════════════ NET WORTH ═══════════════ -->
@@ -560,6 +593,19 @@ function updateEmergency(v){
   document.getElementById('ef-months').textContent=months>0?months+' mo':'✓ Done';
   if(months>0){const d=new Date();d.setMonth(d.getMonth()+months);document.getElementById('ef-date').textContent=d.toLocaleDateString('en-US',{month:'short',year:'numeric'});}
   else document.getElementById('ef-date').textContent='Funded!';
+
+  // Home improvement fund
+  const hiBal=+document.getElementById('s-hi-bal').value;
+  document.getElementById('lbl-hi-bal').textContent=fmtFull(hiBal);
+  document.getElementById('hi-bal-disp').textContent=fmtFull(hiBal);
+  const hiPct=Math.min(100,Math.round(hiBal/15000*100));
+  document.getElementById('hi-progress').style.width=hiPct+'%';
+  document.getElementById('hi-pct').textContent=hiPct+'% of $15K goal';
+  const hiRemaining=Math.max(0,15000-hiBal);
+  const hiMonths=hiRemaining>0?Math.ceil(hiRemaining/300):0;
+  document.getElementById('hi-months').textContent=hiMonths>0?hiMonths+' mo':'✓ Done';
+  if(hiMonths>0){const d=new Date();d.setMonth(d.getMonth()+hiMonths);document.getElementById('hi-date').textContent=d.toLocaleDateString('en-US',{month:'short',year:'numeric'});}
+  else document.getElementById('hi-date').textContent='Funded!';
 }
 
 function updateNetWorth(v){
@@ -624,7 +670,7 @@ function showTab(name){
   updateAll();
 }
 
-['s-contrib','s-return','s-yield','s-appr','s-cal','s-zeke','s-ef-bal','s-ef-mo'].forEach(id=>{
+['s-contrib','s-return','s-yield','s-appr','s-cal','s-zeke','s-ef-bal','s-ef-mo','s-hi-bal'].forEach(id=>{
   document.getElementById(id).addEventListener('input',updateAll);
 });
 
