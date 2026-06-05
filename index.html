@@ -3,247 +3,632 @@
 <head>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>Retirement Tracker</title>
+<title>OscarMike10 — Family Wealth Tracker</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400;500&family=Syne:wght@700;800&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{background:#070d1a;color:#e2e8f0;font-family:'DM Mono',monospace;padding:24px 16px;min-height:100vh}
-h1{font-family:'Syne',sans-serif;font-size:clamp(24px,5vw,40px);font-weight:800;line-height:1.1;letter-spacing:-0.02em;margin:8px 0 4px}
-.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:11px;border:1px solid rgba(52,211,153,0.3);background:rgba(52,211,153,0.15);color:#34d399;letter-spacing:.05em}
-.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:20px;margin-bottom:16px}
-.banner{border-radius:16px;padding:20px;margin-bottom:16px;display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between}
-.stat-label{font-size:11px;color:#64748b;margin-bottom:4px}
-.stat-val{font-family:'Syne',sans-serif;font-size:clamp(22px,4vw,30px);font-weight:800}
-.slider-wrap{margin-bottom:20px}
-.slider-top{display:flex;justify-content:space-between;font-size:12px;color:#64748b;margin-bottom:8px}
-.slider-top span:last-child{color:#34d399}
-input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:rgba(52,211,153,0.2);border-radius:2px;outline:none}
-input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;background:#34d399;border-radius:50%;cursor:pointer;box-shadow:0 0 10px rgba(52,211,153,0.5)}
-.slider-hint{font-size:10px;color:#334155;margin-top:4px}
-table{width:100%;border-collapse:collapse;font-size:12px}
-th{text-align:left;padding:8px 10px;color:#475569;font-size:11px;font-weight:400;border-bottom:1px solid rgba(255,255,255,0.06)}
-td{padding:9px 10px;border-bottom:1px solid rgba(255,255,255,0.04)}
-.pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px}
-.bar-row{margin-bottom:10px}
-.bar-label{display:flex;justify-content:space-between;font-size:12px;margin-bottom:4px}
+body{background:#070d1a;color:#e2e8f0;font-family:'DM Mono',monospace;padding:20px 16px;min-height:100vh}
+h1{font-family:'Syne',sans-serif;font-size:clamp(22px,4vw,38px);font-weight:800;line-height:1.1;letter-spacing:-0.02em;margin:8px 0 4px}
+h2{font-family:'Syne',sans-serif;font-size:clamp(15px,2.5vw,20px);font-weight:800;margin-bottom:16px;color:#e2e8f0}
+.tag{display:inline-block;padding:3px 10px;border-radius:20px;font-size:10px;letter-spacing:.06em}
+.card{background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.07);border-radius:16px;padding:18px;margin-bottom:14px}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:14px;margin-bottom:14px}
+.grid3{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px;margin-bottom:14px}
+.stat-label{font-size:10px;color:#64748b;margin-bottom:3px;letter-spacing:.05em}
+.stat-val{font-family:'Syne',sans-serif;font-size:clamp(18px,3vw,26px);font-weight:800}
+.pill{display:inline-block;padding:2px 9px;border-radius:20px;font-size:10px}
+input[type=range]{-webkit-appearance:none;width:100%;height:4px;background:rgba(52,211,153,0.2);border-radius:2px;outline:none;margin:6px 0}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:17px;height:17px;background:#34d399;border-radius:50%;cursor:pointer;box-shadow:0 0 8px rgba(52,211,153,0.5)}
+.slider-row{display:flex;justify-content:space-between;font-size:11px;color:#64748b;margin-bottom:2px}
+.slider-row span:last-child{color:#34d399}
+.hint{font-size:10px;color:#334155;margin-top:2px}
+table{width:100%;border-collapse:collapse;font-size:11px}
+th{text-align:left;padding:7px 9px;color:#475569;font-size:10px;font-weight:400;border-bottom:1px solid rgba(255,255,255,0.06)}
+td{padding:8px 9px;border-bottom:1px solid rgba(255,255,255,0.04)}
+.bar-row{margin-bottom:9px}
+.bar-lbl{display:flex;justify-content:space-between;font-size:11px;margin-bottom:3px}
 .bar-track{height:4px;background:rgba(255,255,255,0.06);border-radius:2px}
-.bar-fill{height:100%;border-radius:2px;opacity:.85}
-.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px;margin-bottom:16px}
-.note{padding:12px 16px;border-radius:10px;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);font-size:12px;color:#94a3b8;line-height:1.6}
-.sliders-grid{display:grid;gap:0;grid-template-columns:1fr}
-@media(min-width:600px){.sliders-grid{grid-template-columns:repeat(3,1fr);gap:24px}}
+.bar-fill{height:100%;border-radius:2px;opacity:.85;transition:width .3s}
+.progress-wrap{background:rgba(255,255,255,0.06);border-radius:8px;height:10px;overflow:hidden;margin:8px 0}
+.progress-fill{height:100%;border-radius:8px;transition:width .5s;background:linear-gradient(90deg,#34d399,#22d3ee)}
+.note{padding:12px 16px;border-radius:10px;background:rgba(245,158,11,0.05);border:1px solid rgba(245,158,11,0.15);font-size:11px;color:#94a3b8;line-height:1.6;margin-bottom:14px}
+.tab-bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.tab{padding:7px 14px;border-radius:20px;font-size:11px;cursor:pointer;border:1px solid rgba(255,255,255,0.1);background:transparent;color:#64748b;font-family:'DM Mono',monospace;transition:all .2s}
+.tab.active{background:rgba(52,211,153,0.15);border-color:rgba(52,211,153,0.4);color:#34d399}
+.section{display:none}.section.active{display:block}
+.income-row{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.04);font-size:12px}
+.income-row:last-child{border-bottom:none}
+.divider{height:1px;background:rgba(255,255,255,0.06);margin:10px 0}
 </style>
 </head>
 <body>
-<div style="max-width:860px;margin:0 auto">
+<div style="max-width:900px;margin:0 auto">
 
-  <div style="margin-bottom:8px"><span class="tag">RETIREMENT PROJECTION</span></div>
-  <h1>Our Path to <span style="color:#34d399">Financial Freedom</span></h1>
-  <p style="color:#64748b;font-size:13px;margin:4px 0 20px">Starting: $10K + 401K match · Target: 2040–2042 · VA Comp locked: $4,428/mo</p>
+  <!-- Header -->
+  <div style="margin-bottom:8px">
+    <span class="tag" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3)">FAMILY WEALTH TRACKER</span>
+  </div>
+  <h1>OscarMike10 <span style="color:#34d399">&</span> Alanna</h1>
+  <p style="color:#64748b;font-size:12px;margin:4px 0 20px">VA Comp $4,428/mo · $1M Home · Investments · 529s · Emergency Fund · Retire 2040–2042</p>
 
-  <!-- Banner -->
-  <div class="banner" id="banner">
-    <div><div class="stat-label">EST. PORTFOLIO BY 2041</div><div class="stat-val" id="b-port">—</div></div>
-    <div><div class="stat-label">MONTHLY DIVIDENDS</div><div class="stat-val" id="b-divs">—</div></div>
-    <div><div class="stat-label">TOTAL MONTHLY INCOME</div><div class="stat-val" style="color:#e2e8f0" id="b-total">—</div></div>
-    <span class="pill" id="b-status" style="font-size:12px;padding:6px 14px">—</span>
+  <!-- Nav Tabs -->
+  <div class="tab-bar">
+    <button class="tab active" onclick="showTab('overview')">📊 Overview</button>
+    <button class="tab" onclick="showTab('investments')">📈 Investments</button>
+    <button class="tab" onclick="showTab('home')">🏠 Home Equity</button>
+    <button class="tab" onclick="showTab('college')">🎓 529 & Education</button>
+    <button class="tab" onclick="showTab('emergency')">🛡️ Emergency Fund</button>
+    <button class="tab" onclick="showTab('networth')">💎 Net Worth</button>
   </div>
 
-  <!-- Sliders -->
-  <div class="card">
-    <div class="sliders-grid">
-      <div class="slider-wrap">
-        <div class="slider-top"><span>OUR MONTHLY CONTRIBUTION</span><span id="lbl-contrib">$900/mo</span></div>
-        <input type="range" id="s-contrib" min="300" max="3000" step="100" value="900"/>
-        <div class="slider-hint" id="hint-contrib">Total w/match: $1,500/mo</div>
+  <!-- ═══════════════ OVERVIEW ═══════════════ -->
+  <div id="tab-overview" class="section active">
+    <h2>Monthly Budget & Retirement Picture</h2>
+
+    <!-- Monthly Budget Breakdown -->
+    <div class="card" style="border-color:rgba(52,211,153,0.2);background:rgba(52,211,153,0.03)">
+      <div style="font-size:10px;color:#64748b;margin-bottom:12px;letter-spacing:.05em">MONTHLY INCOME BREAKDOWN — $12,228 TAKE-HOME</div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Total Take-Home (incl. VA comp)</span>
+        <span style="color:#34d399;font-weight:500">$12,228/mo</span>
       </div>
-      <div class="slider-wrap">
-        <div class="slider-top"><span>AVG ANNUAL RETURN</span><span id="lbl-return">9%</span></div>
-        <input type="range" id="s-return" min="5" max="12" step="0.5" value="9"/>
-        <div class="slider-hint">5% conservative → 12% aggressive</div>
+      <div class="divider"></div>
+      <div style="font-size:10px;color:#64748b;margin:10px 0 8px;letter-spacing:.05em">FIXED HOUSING COSTS</div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Mortgage P&I (VA @ 5.75%)</span>
+        <span style="color:#f472b6">−$5,865</span>
       </div>
-      <div class="slider-wrap">
-        <div class="slider-top"><span>RETIREMENT YIELD</span><span id="lbl-yield">4.0%</span></div>
-        <input type="range" id="s-yield" min="2.5" max="6" step="0.1" value="4.0"/>
-        <div class="slider-hint">2.5% SCHD only → 6% JEPI heavy</div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Property Tax (Parker CO)</span>
+        <span style="color:#f472b6">−$302</span>
+      </div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Homeowners Insurance (USAA)</span>
+        <span style="color:#f472b6">−$217</span>
+      </div>
+      <div class="income-row" style="font-weight:500">
+        <span style="color:#e2e8f0">After Housing</span>
+        <span style="color:#22d3ee">$5,844/mo</span>
+      </div>
+      <div class="divider"></div>
+      <div style="font-size:10px;color:#64748b;margin:10px 0 8px;letter-spacing:.05em">FUND ALLOCATIONS</div>
+      <div class="income-row">
+        <span style="color:#94a3b8">401K <span style="font-size:10px;color:#475569">(pre-tax, already deducted)</span></span>
+        <span style="color:#a78bfa">✓ Auto</span>
+      </div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Roth IRA</span>
+        <span style="color:#f472b6">−$583</span>
+      </div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Brokerage (SCHD/VGT)</span>
+        <span style="color:#f472b6">−$317</span>
+      </div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Cal 529</span>
+        <span style="color:#f472b6">−$550</span>
+      </div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Zeke 529</span>
+        <span style="color:#f472b6">−$115</span>
+      </div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Emergency Fund</span>
+        <span style="color:#f472b6">−$400</span>
+      </div>
+      <div class="income-row" style="font-weight:500">
+        <span style="color:#e2e8f0">Total to Funds</span>
+        <span style="color:#f472b6">−$1,965</span>
+      </div>
+      <div class="divider"></div>
+      <div class="income-row">
+        <span style="color:#e2e8f0;font-weight:500">Living Expenses (food, utilities, gas, kids)</span>
+        <span style="color:#34d399;font-family:'Syne',sans-serif;font-size:20px;font-weight:800">$3,879/mo</span>
       </div>
     </div>
-  </div>
 
-  <!-- Chart -->
-  <div class="card">
-    <div style="font-size:12px;color:#64748b;margin-bottom:16px">PORTFOLIO GROWTH TRAJECTORY</div>
-    <canvas id="chart" height="220"></canvas>
-  </div>
-
-  <!-- Milestones -->
-  <div class="card">
-    <div style="font-size:12px;color:#64748b;margin-bottom:14px">KEY MILESTONES</div>
-    <div style="overflow-x:auto">
-      <table>
-        <thead><tr><th>Year</th><th>Portfolio</th><th>Dividends/mo</th><th>Total w/ VA</th><th>Status</th></tr></thead>
-        <tbody id="milestone-body"></tbody>
-      </table>
-    </div>
-  </div>
-
-  <!-- Phases -->
-  <div class="phases">
+    <!-- Projected Retirement Income -->
     <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <span style="font-size:13px">Phase 1: Growth (Now → 2034)</span>
-        <span class="pill" style="background:rgba(167,139,250,0.1);color:#a78bfa;border:1px solid rgba(167,139,250,0.2);font-size:10px">GROWTH MODE</span>
+      <div style="font-size:10px;color:#64748b;margin-bottom:12px;letter-spacing:.05em">PROJECTED RETIREMENT INCOME BY 2041</div>
+      <div class="income-row">
+        <span style="color:#94a3b8">VA Compensation (tax-free, permanent)</span>
+        <span style="color:#34d399">$4,428/mo</span>
       </div>
-      <div class="bar-row"><div class="bar-label"><span style="color:#94a3b8">VGT (Growth)</span><span style="color:#22d3ee">40%</span></div><div class="bar-track"><div class="bar-fill" style="width:40%;background:#22d3ee"></div></div></div>
-      <div class="bar-row"><div class="bar-label"><span style="color:#94a3b8">SCHD (Dividend Quality)</span><span style="color:#34d399">35%</span></div><div class="bar-track"><div class="bar-fill" style="width:35%;background:#34d399"></div></div></div>
-      <div class="bar-row"><div class="bar-label"><span style="color:#94a3b8">DGRO (Div Growth)</span><span style="color:#a78bfa">25%</span></div><div class="bar-track"><div class="bar-fill" style="width:25%;background:#a78bfa"></div></div></div>
+      <div class="income-row">
+        <span style="color:#94a3b8">Investment Dividends</span>
+        <span style="color:#22d3ee" id="ov-divs">—</span>
+      </div>
+      <div class="divider"></div>
+      <div class="income-row">
+        <span style="color:#e2e8f0;font-weight:500">Total Retirement Income</span>
+        <span style="color:#34d399;font-family:'Syne',sans-serif;font-size:20px;font-weight:800" id="ov-total">—</span>
+      </div>
     </div>
-    <div class="card">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <span style="font-size:13px">Phase 2: Income (2035 → Retire)</span>
-        <span class="pill" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2);font-size:10px">INCOME MODE</span>
+
+    <!-- Quick stats grid -->
+    <div class="grid3">
+      <div class="card" style="text-align:center">
+        <div class="stat-label">PORTFOLIO BY 2041</div>
+        <div class="stat-val" style="color:#34d399" id="ov-port">—</div>
       </div>
-      <div class="bar-row"><div class="bar-label"><span style="color:#94a3b8">SCHD</span><span style="color:#34d399">45%</span></div><div class="bar-track"><div class="bar-fill" style="width:45%;background:#34d399"></div></div></div>
-      <div class="bar-row"><div class="bar-label"><span style="color:#94a3b8">JEPI (Income)</span><span style="color:#f59e0b">25%</span></div><div class="bar-track"><div class="bar-fill" style="width:25%;background:#f59e0b"></div></div></div>
-      <div class="bar-row"><div class="bar-label"><span style="color:#94a3b8">DGRO</span><span style="color:#a78bfa">15%</span></div><div class="bar-track"><div class="bar-fill" style="width:15%;background:#a78bfa"></div></div></div>
-      <div class="bar-row"><div class="bar-label"><span style="color:#94a3b8">BND (Bonds)</span><span style="color:#94a3b8">10%</span></div><div class="bar-track"><div class="bar-fill" style="width:10%;background:#94a3b8"></div></div></div>
-      <div class="bar-row"><div class="bar-label"><span style="color:#94a3b8">CEFs</span><span style="color:#f472b6">5%</span></div><div class="bar-track"><div class="bar-fill" style="width:5%;background:#f472b6"></div></div></div>
+      <div class="card" style="text-align:center">
+        <div class="stat-label">HOME EQUITY 2041</div>
+        <div class="stat-val" style="color:#22d3ee" id="ov-equity">—</div>
+      </div>
+      <div class="card" style="text-align:center">
+        <div class="stat-label">NET WORTH 2041</div>
+        <div class="stat-val" style="color:#a78bfa" id="ov-nw">—</div>
+      </div>
+    </div>
+
+    <div class="note">
+      <span style="color:#f59e0b">🏠 Pinery, Parker CO: </span>$1,005,000 VA loan @ 5.75% · P&I $5,865 · Tax $302 · Insurance $217 · Total housing $6,384/mo
+    </div>
+    <div class="note">
+      <span style="color:#f59e0b">⚠ Disclaimer: </span>Projections use historical averages. Not financial advice. Consult a fee-only fiduciary advisor.
     </div>
   </div>
 
-  <div class="note"><span style="color:#f59e0b">⚠ Note: </span>Projections assume consistent contributions and historical average returns. Past performance doesn't guarantee future results. Not financial advice — consult a fee-only fiduciary advisor for personalized guidance.</div>
+  <!-- ═══════════════ INVESTMENTS ═══════════════ -->
+  <div id="tab-investments" class="section">
+    <h2>Investment Portfolio</h2>
+    <div class="card">
+      <div style="display:grid;gap:16px">
+        <div>
+          <div class="slider-row"><span>YOUR MONTHLY CONTRIBUTION</span><span id="lbl-contrib">$900/mo</span></div>
+          <input type="range" id="s-contrib" min="300" max="3000" step="100" value="900"/><!-- $583 Roth + $317 brokerage = $900 out of pocket -->
+          <div class="hint" id="hint-contrib">Total w/ employer match: $1,500/mo</div>
+        </div>
+        <div>
+          <div class="slider-row"><span>AVG ANNUAL RETURN</span><span id="lbl-return">9%</span></div>
+          <input type="range" id="s-return" min="5" max="12" step="0.5" value="9"/>
+          <div class="hint">5% conservative → 12% aggressive</div>
+        </div>
+        <div>
+          <div class="slider-row"><span>RETIREMENT YIELD</span><span id="lbl-yield">4.0%</span></div>
+          <input type="range" id="s-yield" min="2.5" max="6" step="0.1" value="4.0"/>
+          <div class="hint">2.5% SCHD only → 6% JEPI heavy</div>
+        </div>
+      </div>
+    </div>
 
-</div>
+    <!-- Banner -->
+    <div class="card" id="inv-banner" style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;justify-content:space-between">
+      <div><div class="stat-label">PORTFOLIO BY 2041</div><div class="stat-val" id="b-port" style="color:#34d399">—</div></div>
+      <div><div class="stat-label">MONTHLY DIVIDENDS</div><div class="stat-val" id="b-divs" style="color:#34d399">—</div></div>
+      <div><div class="stat-label">TOTAL W/ VA COMP</div><div class="stat-val" style="color:#e2e8f0" id="b-total">—</div></div>
+      <span class="pill" id="b-status" style="font-size:11px;padding:5px 12px">—</span>
+    </div>
+
+    <div class="card">
+      <div style="font-size:10px;color:#64748b;margin-bottom:14px;letter-spacing:.05em">GROWTH TRAJECTORY</div>
+      <canvas id="inv-chart" height="200"></canvas>
+    </div>
+
+    <div class="card">
+      <div style="font-size:10px;color:#64748b;margin-bottom:12px;letter-spacing:.05em">MILESTONES</div>
+      <div style="overflow-x:auto">
+        <table><thead><tr><th>Year</th><th>Portfolio</th><th>Dividends/mo</th><th>+VA Total</th><th>Status</th></tr></thead>
+        <tbody id="milestone-body"></tbody></table>
+      </div>
+    </div>
+
+    <div class="grid2">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <span style="font-size:12px">Phase 1: Growth (Now→2034)</span>
+          <span class="tag" style="background:rgba(34,211,238,0.1);color:#22d3ee;border:1px solid rgba(34,211,238,0.2)">GROWTH</span>
+        </div>
+        <div class="bar-row"><div class="bar-lbl"><span style="color:#94a3b8">VGT</span><span style="color:#22d3ee">40%</span></div><div class="bar-track"><div class="bar-fill" style="width:40%;background:#22d3ee"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl"><span style="color:#94a3b8">SCHD</span><span style="color:#34d399">35%</span></div><div class="bar-track"><div class="bar-fill" style="width:35%;background:#34d399"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl"><span style="color:#94a3b8">DGRO</span><span style="color:#a78bfa">25%</span></div><div class="bar-track"><div class="bar-fill" style="width:25%;background:#a78bfa"></div></div></div>
+      </div>
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <span style="font-size:12px">Phase 2: Income (2035→Retire)</span>
+          <span class="tag" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2)">INCOME</span>
+        </div>
+        <div class="bar-row"><div class="bar-lbl"><span style="color:#94a3b8">SCHD</span><span style="color:#34d399">45%</span></div><div class="bar-track"><div class="bar-fill" style="width:45%;background:#34d399"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl"><span style="color:#94a3b8">JEPI</span><span style="color:#f59e0b">25%</span></div><div class="bar-track"><div class="bar-fill" style="width:25%;background:#f59e0b"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl"><span style="color:#94a3b8">DGRO</span><span style="color:#a78bfa">15%</span></div><div class="bar-track"><div class="bar-fill" style="width:15%;background:#a78bfa"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl"><span style="color:#94a3b8">BND</span><span style="color:#94a3b8">10%</span></div><div class="bar-track"><div class="bar-fill" style="width:10%;background:#94a3b8"></div></div></div>
+        <div class="bar-row"><div class="bar-lbl"><span style="color:#94a3b8">CEFs</span><span style="color:#f472b6">5%</span></div><div class="bar-track"><div class="bar-fill" style="width:5%;background:#f472b6"></div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ HOME ═══════════════ -->
+  <div id="tab-home" class="section">
+    <h2>Home Equity Projection</h2>
+    <div class="card" style="display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;background:rgba(34,211,238,0.04);border-color:rgba(34,211,238,0.2)">
+      <div><div class="stat-label">PURCHASE PRICE</div><div class="stat-val" style="color:#22d3ee">$1,005,000</div></div>
+      <div><div class="stat-label">VA LOAN RATE</div><div class="stat-val" style="color:#22d3ee">5.75%</div></div>
+      <div><div class="stat-label">MONTHLY P&I</div><div class="stat-val" style="color:#22d3ee">$5,865</div></div>
+      <div><div class="stat-label">DOWN PAYMENT</div><div class="stat-val" style="color:#22d3ee">$0</div></div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:10px;color:#64748b;margin-bottom:4px;letter-spacing:.05em">APPRECIATION RATE</div>
+      <div class="slider-row"><span>Home Appreciation</span><span id="lbl-appr">4.0%/yr</span></div>
+      <input type="range" id="s-appr" min="2" max="7" step="0.5" value="4"/>
+      <div class="hint">2% slow market → 7% hot market</div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:10px;color:#64748b;margin-bottom:14px;letter-spacing:.05em">HOME VALUE vs MORTGAGE BALANCE</div>
+      <canvas id="home-chart" height="200"></canvas>
+    </div>
+
+    <div class="card">
+      <div style="overflow-x:auto">
+        <table><thead><tr><th>Year</th><th>Home Value</th><th>Mortgage Balance</th><th>Equity</th><th>Equity %</th></tr></thead>
+        <tbody id="home-body"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ COLLEGE ═══════════════ -->
+  <div id="tab-college" class="section">
+    <h2>529 & Education Benefits</h2>
+
+    <div class="grid2">
+      <div class="card" style="border-color:rgba(167,139,250,0.3);background:rgba(167,139,250,0.04)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800">Cal <span style="color:#a78bfa">· Age 12</span></span>
+          <span class="tag" style="background:rgba(245,158,11,0.15);color:#f59e0b;border:1px solid rgba(245,158,11,0.3)">URGENT</span>
+        </div>
+        <div class="income-row"><span style="color:#94a3b8">College starts</span><span style="color:#e2e8f0">~2030 (6 yrs)</span></div>
+        <div class="income-row"><span style="color:#94a3b8">Hazlewood (tuition)</span><span style="color:#34d399">✓ Covered</span></div>
+        <div class="income-row"><span style="color:#94a3b8">Chapter 35 DEA</span><span style="color:#34d399">$1,574/mo × 36mo</span></div>
+        <div class="income-row"><span style="color:#94a3b8">DEA Total Value</span><span style="color:#34d399">~$56,664</span></div>
+        <div class="income-row"><span style="color:#94a3b8">529 Goal</span><span style="color:#a78bfa">$50,000</span></div>
+        <div class="income-row"><span style="color:#94a3b8">Monthly needed</span><span style="color:#f59e0b;font-weight:500">~$550/mo</span></div>
+        <div style="margin-top:12px">
+          <div class="slider-row"><span style="font-size:10px">CAL 529 MONTHLY</span><span id="lbl-cal">$550</span></div>
+          <input type="range" id="s-cal" min="100" max="1000" step="50" value="550"/>
+          <div style="margin-top:10px">
+            <div style="font-size:10px;color:#64748b;margin-bottom:4px">PROJECTED BY 2030</div>
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#a78bfa" id="cal-proj">—</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.04)">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
+          <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800">Zeke <span style="color:#34d399">· 7 months</span></span>
+          <span class="tag" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3)">17 YRS</span>
+        </div>
+        <div class="income-row"><span style="color:#94a3b8">College starts</span><span style="color:#e2e8f0">~2043 (17 yrs)</span></div>
+        <div class="income-row"><span style="color:#94a3b8">Hazlewood (tuition)</span><span style="color:#34d399">✓ Covered</span></div>
+        <div class="income-row"><span style="color:#94a3b8">Chapter 35 DEA</span><span style="color:#34d399">$1,574/mo × 36mo</span></div>
+        <div class="income-row"><span style="color:#94a3b8">DEA Total Value</span><span style="color:#34d399">~$56,664+</span></div>
+        <div class="income-row"><span style="color:#94a3b8">529 Goal</span><span style="color:#34d399">$50,000</span></div>
+        <div class="income-row"><span style="color:#94a3b8">Monthly needed</span><span style="color:#34d399;font-weight:500">~$115/mo</span></div>
+        <div style="margin-top:12px">
+          <div class="slider-row"><span style="font-size:10px">ZEKE 529 MONTHLY</span><span id="lbl-zeke">$115</span></div>
+          <input type="range" id="s-zeke" min="50" max="500" step="25" value="115"/>
+          <div style="margin-top:10px">
+            <div style="font-size:10px;color:#64748b;margin-bottom:4px">PROJECTED BY 2043</div>
+            <div style="font-family:'Syne',sans-serif;font-size:22px;font-weight:800;color:#34d399" id="zeke-proj">—</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="note">
+      <span style="color:#f59e0b">📋 Action Item: </span>Cal is 6 years from college. File VA Form 22-5490 now to activate Chapter 35 DEA — approval takes 2–3 months. Open his 529 immediately at Utah My529 or Nevada Vanguard 529. Both kids' tuition is fully covered by Hazlewood — the 529 + DEA covers everything else.
+    </div>
+  </div>
+
+  <!-- ═══════════════ EMERGENCY FUND ═══════════════ -->
+  <div id="tab-emergency" class="section">
+    <h2>Emergency Fund</h2>
+    <div class="card" style="border-color:rgba(244,114,182,0.3);background:rgba(244,114,182,0.04)">
+      <div style="font-size:10px;color:#64748b;margin-bottom:14px;letter-spacing:.05em">TARGET: 3–6 MONTHS EXPENSES</div>
+      <div class="grid3" style="margin-bottom:14px">
+        <div><div class="stat-label">3-MONTH TARGET</div><div class="stat-val" style="color:#f472b6">$25,000</div></div>
+        <div><div class="stat-label">6-MONTH TARGET</div><div class="stat-val" style="color:#f472b6">$35,000</div></div>
+        <div><div class="stat-label">RECOMMENDED</div><div class="stat-val" style="color:#f472b6">$30,000</div></div>
+      </div>
+      <div>
+        <div class="slider-row"><span style="font-size:11px">CURRENT BALANCE</span><span id="lbl-ef-bal" style="color:#f472b6">$0</span></div>
+        <input type="range" id="s-ef-bal" min="0" max="35000" step="500" value="0"/>
+      </div>
+      <div style="margin-top:16px">
+        <div style="font-size:10px;color:#64748b;margin-bottom:4px">CURRENT BALANCE</div>
+        <div style="font-family:'Syne',sans-serif;font-size:28px;font-weight:800;color:#f472b6" id="ef-bal-disp">$0</div>
+        <div class="progress-wrap" style="margin-top:8px">
+          <div class="progress-fill" id="ef-progress" style="width:0%;background:linear-gradient(90deg,#f472b6,#a78bfa)"></div>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:10px;color:#475569;margin-top:4px">
+          <span>$0</span><span id="ef-pct" style="color:#f472b6">0% of $30K goal</span><span>$30K</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:10px;color:#64748b;margin-bottom:12px;letter-spacing:.05em">MONTHLY CONTRIBUTION TO EMERGENCY FUND</div>
+      <div class="slider-row"><span>Monthly Savings</span><span id="lbl-ef-mo" style="color:#f472b6">$200/mo</span></div>
+      <input type="range" id="s-ef-mo" min="100" max="1000" step="50" value="400"/>
+      <div style="margin-top:14px;display:flex;gap:20px;flex-wrap:wrap">
+        <div><div class="stat-label">MONTHS TO GOAL</div><div class="stat-val" style="color:#f472b6" id="ef-months">—</div></div>
+        <div><div class="stat-label">GOAL DATE</div><div class="stat-val" style="color:#f472b6" id="ef-date">—</div></div>
+      </div>
+    </div>
+
+    <div class="note">
+      <span style="color:#f59e0b">💡 Tip: </span>Keep emergency fund in a high-yield savings account (HYSA) — current rates ~4.5–5%. Recommended: Fidelity Cash Management, Marcus by Goldman Sachs, or Schwab Bank. Your VA comp alone covers emergencies but having 3–6 months liquid protects against unexpected home repairs on a $1M property.
+    </div>
+  </div>
+
+  <!-- ═══════════════ NET WORTH ═══════════════ -->
+  <div id="tab-networth" class="section">
+    <h2>Total Net Worth Timeline</h2>
+
+    <div class="grid3" style="margin-bottom:14px">
+      <div class="card" style="text-align:center;border-color:rgba(52,211,153,0.2)">
+        <div class="stat-label">NET WORTH TODAY</div>
+        <div class="stat-val" style="color:#34d399" id="nw-today">—</div>
+      </div>
+      <div class="card" style="text-align:center;border-color:rgba(167,139,250,0.2)">
+        <div class="stat-label">NET WORTH 2040</div>
+        <div class="stat-val" style="color:#a78bfa" id="nw-2040">—</div>
+      </div>
+      <div class="card" style="text-align:center;border-color:rgba(34,211,238,0.2)">
+        <div class="stat-label">NET WORTH 2042</div>
+        <div class="stat-val" style="color:#22d3ee" id="nw-2042">—</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:10px;color:#64748b;margin-bottom:14px;letter-spacing:.05em">ALL ASSETS COMBINED</div>
+      <canvas id="nw-chart" height="220"></canvas>
+      <div style="display:flex;flex-wrap:wrap;gap:12px;margin-top:12px">
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px"><div style="width:10px;height:10px;border-radius:2px;background:#34d399"></div><span style="color:#64748b">Investments</span></div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px"><div style="width:10px;height:10px;border-radius:2px;background:#22d3ee"></div><span style="color:#64748b">Home Equity</span></div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px"><div style="width:10px;height:10px;border-radius:2px;background:#a78bfa"></div><span style="color:#64748b">529s</span></div>
+        <div style="display:flex;align-items:center;gap:6px;font-size:11px"><div style="width:10px;height:10px;border-radius:2px;background:#f472b6"></div><span style="color:#64748b">Emergency Fund</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div style="font-size:10px;color:#64748b;margin-bottom:12px;letter-spacing:.05em">YEAR BY YEAR BREAKDOWN</div>
+      <div style="overflow-x:auto">
+        <table><thead><tr><th>Year</th><th>Investments</th><th>Home Equity</th><th>529s</th><th>Total Net Worth</th></tr></thead>
+        <tbody id="nw-body"></tbody></table>
+      </div>
+    </div>
+  </div>
+
+</div><!-- end max-width -->
 
 <script>
-const VA = 4428;
-const MATCH = 600;
-const MILESTONES = [2027,2030,2033,2037,2040,2042];
+const VA=4428, MATCH=600, MORTGAGE=1005000, RATE_MONTHLY=5.75/100/12, N=360;
 
-function fmt(n){return n>=1000000?'$'+(n/1000000).toFixed(2)+'M':'$'+Math.round(n/1000)+'K'}
+function fmt(n){return n>=1000000?'$'+(n/1000000).toFixed(2)+'M':n>=1000?'$'+Math.round(n/1000)+'K':'$'+Math.round(n)}
 function fmtFull(n){return '$'+Math.round(n).toLocaleString('en-US')}
 
-function project(contrib, ret, years){
-  const data=[];
-  let bal=10000;
-  const rate=ret/12/100;
-  const monthly=contrib+MATCH;
+// Mortgage balance at year y
+function mortgageBalance(y){
+  let bal=MORTGAGE;
+  const pmt=MORTGAGE*(RATE_MONTHLY*(1+RATE_MONTHLY)**N)/((1+RATE_MONTHLY)**N-1);
+  for(let m=0;m<y*12;m++) bal=bal*(1+RATE_MONTHLY)-pmt;
+  return Math.max(0,bal);
+}
+
+function projectInv(contrib,ret,years){
+  const data=[];let bal=10000;
+  const r=ret/12/100,total=contrib+MATCH;
   for(let y=0;y<=years;y++){
-    data.push({year:2025+y, portfolio:Math.round(bal), contributions:Math.round(10000+monthly*12*y)});
-    for(let m=0;m<12;m++) bal=bal*(1+rate)+monthly;
+    data.push({year:2025+y,portfolio:Math.round(bal)});
+    for(let m=0;m<12;m++) bal=bal*(1+r)+total;
   }
   return data;
 }
 
-let chartInst=null;
+function project529(monthly,years,r=0.07){
+  let bal=0;const mr=r/12;
+  for(let m=0;m<years*12;m++) bal=bal*(1+mr)+monthly;
+  return Math.round(bal);
+}
 
-function update(){
-  const contrib=+document.getElementById('s-contrib').value;
-  const ret=+document.getElementById('s-return').value;
-  const yld=+document.getElementById('s-yield').value;
+function homeValue(y,appr){return Math.round(MORTGAGE*Math.pow(1+appr/100,y))}
 
-  document.getElementById('lbl-contrib').textContent=fmtFull(contrib)+'/mo';
-  document.getElementById('hint-contrib').textContent='Total w/match: '+fmtFull(contrib+MATCH)+'/mo';
-  document.getElementById('lbl-return').textContent=ret+'%';
-  document.getElementById('lbl-yield').textContent=yld.toFixed(1)+'%';
+let invChart=null,homeChart=null,nwChart=null;
 
-  const data=project(contrib,ret,20);
+function destroyChart(c){if(c){try{c.destroy()}catch(e){}}return null;}
+
+function getVals(){
+  return {
+    contrib:+document.getElementById('s-contrib').value,
+    ret:+document.getElementById('s-return').value,
+    yld:+document.getElementById('s-yield').value,
+    appr:+document.getElementById('s-appr').value,
+    cal:+document.getElementById('s-cal').value,
+    zeke:+document.getElementById('s-zeke').value,
+    efBal:+document.getElementById('s-ef-bal').value,
+    efMo:+document.getElementById('s-ef-mo').value,
+  };
+}
+
+function updateAll(){
+  const v=getVals();
+  updateInv(v);
+  updateHome(v);
+  updateCollege(v);
+  updateEmergency(v);
+  updateNetWorth(v);
+  updateOverview(v);
+}
+
+function updateInv(v){
+  document.getElementById('lbl-contrib').textContent=fmtFull(v.contrib)+'/mo';
+  document.getElementById('hint-contrib').textContent='Total w/ employer match: '+fmtFull(v.contrib+MATCH)+'/mo';
+  document.getElementById('lbl-return').textContent=v.ret+'%';
+  document.getElementById('lbl-yield').textContent=v.yld.toFixed(1)+'%';
+
+  const data=projectInv(v.contrib,v.ret,20);
   const goal=data.filter(d=>d.year>=2040&&d.year<=2042);
   const gPort=goal.length?goal[Math.floor(goal.length/2)].portfolio:0;
-  const gDivs=(gPort*yld)/100/12;
+  const gDivs=(gPort*v.yld)/100/12;
   const gTotal=gDivs+VA;
   const met=gDivs>=5000;
-  const target=(5000*12*100)/yld;
+  const target=(5000*12*100)/v.yld;
 
-  // Banner
-  const banner=document.getElementById('banner');
-  banner.style.border='1px solid '+(met?'rgba(52,211,153,0.4)':'rgba(245,158,11,0.3)');
+  const banner=document.getElementById('inv-banner');
+  banner.style.borderColor=met?'rgba(52,211,153,0.4)':'rgba(245,158,11,0.3)';
   banner.style.background=met?'rgba(52,211,153,0.06)':'rgba(245,158,11,0.06)';
-  const statColor=met?'#34d399':'#f59e0b';
-  document.getElementById('b-port').style.color=statColor;
+  const sc=met?'#34d399':'#f59e0b';
+  document.getElementById('b-port').style.color=sc;
   document.getElementById('b-port').textContent=fmt(gPort);
-  document.getElementById('b-divs').style.color=statColor;
+  document.getElementById('b-divs').style.color=sc;
   document.getElementById('b-divs').textContent=fmtFull(gDivs)+'/mo';
   document.getElementById('b-total').textContent=fmtFull(gTotal)+'/mo';
   const bs=document.getElementById('b-status');
   bs.textContent=met?'✓ $5K GOAL MET':'↑ NEED '+fmt(target-gPort)+' MORE';
-  bs.style.background=met?'rgba(52,211,153,0.2)':'rgba(245,158,11,0.2)';
-  bs.style.color=met?'#34d399':'#f59e0b';
-  bs.style.border='1px solid '+(met?'rgba(52,211,153,0.4)':'rgba(245,158,11,0.4)');
+  bs.style.cssText=`background:${met?'rgba(52,211,153,0.2)':'rgba(245,158,11,0.2)'};color:${met?'#34d399':'#f59e0b'};border:1px solid ${met?'rgba(52,211,153,0.4)':'rgba(245,158,11,0.4)'};display:inline-block;padding:5px 12px;border-radius:20px;font-size:11px`;
 
   // Chart
-  const labels=data.map(d=>d.year);
-  const ports=data.map(d=>d.portfolio);
-  const contribs=data.map(d=>d.contributions);
-  if(chartInst) chartInst.destroy();
-  const ctx=document.getElementById('chart').getContext('2d');
-  const portGrad=ctx.createLinearGradient(0,0,0,220);
-  portGrad.addColorStop(0,'rgba(52,211,153,0.3)');
-  portGrad.addColorStop(1,'rgba(52,211,153,0)');
-  const contGrad=ctx.createLinearGradient(0,0,0,220);
-  contGrad.addColorStop(0,'rgba(167,139,250,0.2)');
-  contGrad.addColorStop(1,'rgba(167,139,250,0)');
-  chartInst=new Chart(ctx,{
-    type:'line',
-    data:{
-      labels,
-      datasets:[
-        {label:'Contributions',data:contribs,borderColor:'#a78bfa',borderWidth:1,backgroundColor:contGrad,fill:true,pointRadius:0,tension:0.4},
-        {label:'Portfolio',data:ports,borderColor:'#34d399',borderWidth:2,backgroundColor:portGrad,fill:true,pointRadius:0,tension:0.4},
-      ]
-    },
-    options:{
-      responsive:true,
-      interaction:{mode:'index',intersect:false},
-      plugins:{
-        legend:{display:false},
-        tooltip:{
-          backgroundColor:'rgba(10,15,28,0.97)',
-          borderColor:'rgba(52,211,153,0.3)',
-          borderWidth:1,
-          titleColor:'#94a3b8',
-          bodyColor:'#e2e8f0',
-          titleFont:{family:'DM Mono',size:12},
-          bodyFont:{family:'DM Mono',size:12},
-          callbacks:{label:ctx=>`${ctx.dataset.label}: ${fmt(ctx.parsed.y)}`}
-        },
-        annotation:{annotations:{}}
-      },
-      scales:{
-        x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#475569',font:{family:'DM Mono',size:11}},border:{display:false}},
-        y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#475569',font:{family:'DM Mono',size:11},callback:fmt},border:{display:false}}
-      }
-    }
-  });
+  invChart=destroyChart(invChart);
+  const ctx=document.getElementById('inv-chart').getContext('2d');
+  const g1=ctx.createLinearGradient(0,0,0,200);g1.addColorStop(0,'rgba(52,211,153,0.3)');g1.addColorStop(1,'rgba(52,211,153,0)');
+  const g2=ctx.createLinearGradient(0,0,0,200);g2.addColorStop(0,'rgba(167,139,250,0.15)');g2.addColorStop(1,'rgba(167,139,250,0)');
+  invChart=new Chart(ctx,{type:'line',data:{labels:data.map(d=>d.year),datasets:[
+    {label:'Contributions',data:data.map(d=>Math.round(10000+(v.contrib+MATCH)*12*(d.year-2025))),borderColor:'#a78bfa',borderWidth:1,backgroundColor:g2,fill:true,pointRadius:0,tension:0.4},
+    {label:'Portfolio',data:data.map(d=>d.portfolio),borderColor:'#34d399',borderWidth:2,backgroundColor:g1,fill:true,pointRadius:0,tension:0.4}
+  ]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(10,15,28,0.97)',borderColor:'rgba(52,211,153,0.3)',borderWidth:1,titleColor:'#94a3b8',bodyColor:'#e2e8f0',callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#475569',font:{family:'DM Mono',size:10}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#475569',font:{family:'DM Mono',size:10},callback:fmt}}}}});
 
   // Milestones
-  const tbody=document.getElementById('milestone-body');
-  tbody.innerHTML='';
-  MILESTONES.forEach(yr=>{
-    const row=data.find(d=>d.year===yr);
-    if(!row) return;
-    const divs=(row.portfolio*yld)/100/12;
-    const total=divs+VA;
-    const met2=divs>=5000;
-    const isTarget=yr>=2040&&yr<=2042;
-    const tr=document.createElement('tr');
-    if(isTarget) tr.style.background='rgba(52,211,153,0.03)';
-    tr.innerHTML=`
-      <td style="color:${isTarget?'#34d399':'#94a3b8'};font-weight:${isTarget?500:400}">${yr}</td>
-      <td style="color:#e2e8f0">${fmt(row.portfolio)}</td>
-      <td style="color:${met2?'#34d399':'#e2e8f0'}">${fmtFull(divs)}/mo</td>
-      <td style="color:#e2e8f0">${fmtFull(total)}/mo</td>
-      <td><span class="pill" style="background:${met2?'rgba(52,211,153,0.1)':'rgba(100,116,139,0.1)'};color:${met2?'#34d399':'#64748b'};border:1px solid ${met2?'rgba(52,211,153,0.2)':'rgba(100,116,139,0.2)'}">${met2?'✓ Goal met':'Building'}</span></td>
-    `;
-    tbody.appendChild(tr);
+  const tb=document.getElementById('milestone-body');tb.innerHTML='';
+  [2027,2030,2033,2037,2040,2042].forEach(yr=>{
+    const row=data.find(d=>d.year===yr);if(!row)return;
+    const divs=(row.portfolio*v.yld)/100/12,total=divs+VA,m2=divs>=5000,iT=yr>=2040&&yr<=2042;
+    const tr=document.createElement('tr');if(iT)tr.style.background='rgba(52,211,153,0.03)';
+    tr.innerHTML=`<td style="color:${iT?'#34d399':'#94a3b8'}">${yr}</td><td style="color:#e2e8f0">${fmt(row.portfolio)}</td><td style="color:${m2?'#34d399':'#e2e8f0'}">${fmtFull(divs)}/mo</td><td style="color:#e2e8f0">${fmtFull(total)}/mo</td><td><span class="pill" style="background:${m2?'rgba(52,211,153,0.1)':'rgba(100,116,139,0.1)'};color:${m2?'#34d399':'#64748b'};border:1px solid ${m2?'rgba(52,211,153,0.2)':'rgba(100,116,139,0.2)'}">${m2?'✓ Goal met':'Building'}</span></td>`;
+    tb.appendChild(tr);
   });
 }
 
-document.getElementById('s-contrib').addEventListener('input',update);
-document.getElementById('s-return').addEventListener('input',update);
-document.getElementById('s-yield').addEventListener('input',update);
-update();
+function updateHome(v){
+  document.getElementById('lbl-appr').textContent=v.appr.toFixed(1)+'%/yr';
+  const years=Array.from({length:21},(_,i)=>2025+i);
+  const vals=years.map(y=>homeValue(y-2025,v.appr));
+  const bals=years.map(y=>Math.round(mortgageBalance(y-2025)));
+  const equities=vals.map((val,i)=>val-bals[i]);
+
+  homeChart=destroyChart(homeChart);
+  const ctx=document.getElementById('home-chart').getContext('2d');
+  const g1=ctx.createLinearGradient(0,0,0,200);g1.addColorStop(0,'rgba(34,211,238,0.25)');g1.addColorStop(1,'rgba(34,211,238,0)');
+  const g2=ctx.createLinearGradient(0,0,0,200);g2.addColorStop(0,'rgba(244,114,182,0.15)');g2.addColorStop(1,'rgba(244,114,182,0)');
+  homeChart=new Chart(ctx,{type:'line',data:{labels:years,datasets:[
+    {label:'Home Value',data:vals,borderColor:'#22d3ee',borderWidth:2,backgroundColor:g1,fill:true,pointRadius:0,tension:0.4},
+    {label:'Mortgage Balance',data:bals,borderColor:'#f472b6',borderWidth:1.5,backgroundColor:g2,fill:true,pointRadius:0,tension:0.4},
+    {label:'Equity',data:equities,borderColor:'#34d399',borderWidth:1.5,backgroundColor:'transparent',pointRadius:0,tension:0.4,borderDash:[4,4]}
+  ]},options:{responsive:true,plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(10,15,28,0.97)',borderColor:'rgba(34,211,238,0.3)',borderWidth:1,titleColor:'#94a3b8',bodyColor:'#e2e8f0',callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`}}},scales:{x:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#475569',font:{family:'DM Mono',size:10}}},y:{grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#475569',font:{family:'DM Mono',size:10},callback:fmt}}}}});
+
+  const tb=document.getElementById('home-body');tb.innerHTML='';
+  [2025,2027,2030,2033,2037,2040,2042].forEach(yr=>{
+    const y=yr-2025,hv=homeValue(y,v.appr),mb=Math.round(mortgageBalance(y)),eq=hv-mb,pct=Math.round(eq/hv*100);
+    const iT=yr>=2040;
+    const tr=document.createElement('tr');if(iT)tr.style.background='rgba(34,211,238,0.03)';
+    tr.innerHTML=`<td style="color:${iT?'#22d3ee':'#94a3b8'}">${yr}</td><td style="color:#e2e8f0">${fmt(hv)}</td><td style="color:#f472b6">${fmt(mb)}</td><td style="color:#34d399">${fmt(eq)}</td><td><span class="pill" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2)">${pct}%</span></td>`;
+    tb.appendChild(tr);
+  });
+}
+
+function updateCollege(v){
+  document.getElementById('lbl-cal').textContent='$'+v.cal+'/mo';
+  document.getElementById('lbl-zeke').textContent='$'+v.zeke+'/mo';
+  const calProj=project529(v.cal,6);
+  const zekeProj=project529(v.zeke,17);
+  const calEl=document.getElementById('cal-proj');
+  calEl.textContent=fmt(calProj);
+  calEl.style.color=calProj>=50000?'#34d399':'#f59e0b';
+  document.getElementById('zeke-proj').textContent=fmt(zekeProj);
+}
+
+function updateEmergency(v){
+  document.getElementById('lbl-ef-bal').textContent=fmtFull(v.efBal);
+  document.getElementById('lbl-ef-mo').textContent=fmtFull(v.efMo)+'/mo';
+  document.getElementById('ef-bal-disp').textContent=fmtFull(v.efBal);
+  const pct=Math.min(100,Math.round(v.efBal/30000*100));
+  document.getElementById('ef-progress').style.width=pct+'%';
+  document.getElementById('ef-pct').textContent=pct+'% of $30K goal';
+  const remaining=Math.max(0,30000-v.efBal);
+  const months=remaining>0?Math.ceil(remaining/v.efMo):0;
+  document.getElementById('ef-months').textContent=months>0?months+' mo':'✓ Done';
+  if(months>0){const d=new Date();d.setMonth(d.getMonth()+months);document.getElementById('ef-date').textContent=d.toLocaleDateString('en-US',{month:'short',year:'numeric'});}
+  else document.getElementById('ef-date').textContent='Funded!';
+}
+
+function updateNetWorth(v){
+  const invData=projectInv(v.contrib,v.ret,20);
+  const years=Array.from({length:21},(_,i)=>2025+i);
+  const invVals=invData.map(d=>d.portfolio);
+  const equityVals=years.map(y=>Math.max(0,homeValue(y-2025,v.appr)-mortgageBalance(y-2025)));
+  const calVals=years.map(y=>y<=2030?project529(v.cal,y-2025):project529(v.cal,6));
+  const zekeVals=years.map(y=>project529(v.zeke,y-2025));
+  const efVals=years.map((_,i)=>Math.min(30000,v.efBal+v.efMo*12*i));
+  const totalVals=years.map((_,i)=>invVals[i]+equityVals[i]+calVals[i]+zekeVals[i]+efVals[i]);
+
+  nwChart=destroyChart(nwChart);
+  const ctx=document.getElementById('nw-chart').getContext('2d');
+  nwChart=new Chart(ctx,{type:'bar',data:{labels:years,datasets:[
+    {label:'Investments',data:invVals,backgroundColor:'rgba(52,211,153,0.7)',borderRadius:4},
+    {label:'Home Equity',data:equityVals,backgroundColor:'rgba(34,211,238,0.7)',borderRadius:4},
+    {label:'529s',data:zekeVals.map((z,i)=>z+calVals[i]),backgroundColor:'rgba(167,139,250,0.7)',borderRadius:4},
+    {label:'Emergency Fund',data:efVals,backgroundColor:'rgba(244,114,182,0.7)',borderRadius:4},
+  ]},options:{responsive:true,scales:{x:{stacked:true,grid:{display:false},ticks:{color:'#475569',font:{family:'DM Mono',size:10}}},y:{stacked:true,grid:{color:'rgba(255,255,255,0.04)'},ticks:{color:'#475569',font:{family:'DM Mono',size:10},callback:fmt}}},plugins:{legend:{display:false},tooltip:{backgroundColor:'rgba(10,15,28,0.97)',borderColor:'rgba(167,139,250,0.3)',borderWidth:1,titleColor:'#94a3b8',bodyColor:'#e2e8f0',callbacks:{label:c=>`${c.dataset.label}: ${fmt(c.parsed.y)}`,footer:items=>`Total: ${fmt(items.reduce((s,i)=>s+i.parsed.y,0))}`}}}}});
+
+  // Summary cards
+  const idx2025=0,idx2040=15,idx2042=17;
+  document.getElementById('nw-today').textContent=fmt(totalVals[idx2025]);
+  document.getElementById('nw-2040').textContent=fmt(totalVals[idx2040]);
+  document.getElementById('nw-2042').textContent=fmt(totalVals[idx2042]);
+
+  // Table
+  const tb=document.getElementById('nw-body');tb.innerHTML='';
+  [2025,2027,2030,2035,2040,2042].forEach(yr=>{
+    const i=yr-2025;
+    const total=invVals[i]+equityVals[i]+calVals[i]+zekeVals[i]+efVals[i];
+    const iT=yr>=2040;
+    const tr=document.createElement('tr');if(iT)tr.style.background='rgba(167,139,250,0.03)';
+    tr.innerHTML=`<td style="color:${iT?'#a78bfa':'#94a3b8'}">${yr}</td><td style="color:#34d399">${fmt(invVals[i])}</td><td style="color:#22d3ee">${fmt(equityVals[i])}</td><td style="color:#a78bfa">${fmt(calVals[i]+zekeVals[i])}</td><td style="color:#e2e8f0;font-weight:500">${fmt(total)}</td>`;
+    tb.appendChild(tr);
+  });
+}
+
+function updateOverview(v){
+  const invData=projectInv(v.contrib,v.ret,20);
+  const goal=invData.filter(d=>d.year>=2040&&d.year<=2042);
+  const gPort=goal.length?goal[Math.floor(goal.length/2)].portfolio:0;
+  const gDivs=(gPort*v.yld)/100/12;
+  const eq2041=Math.max(0,homeValue(16,v.appr)-mortgageBalance(16));
+  const invData2041=invData.find(d=>d.year===2041)||invData[invData.length-1];
+  const cal529=project529(v.cal,6);
+  const zeke529=project529(v.zeke,17);
+  const nw=invData2041.portfolio+eq2041+cal529+zeke529;
+  document.getElementById('ov-divs').textContent=fmtFull(gDivs)+'/mo';
+  document.getElementById('ov-total').textContent=fmtFull(gDivs+VA)+'/mo';
+  document.getElementById('ov-port').textContent=fmt(gPort);
+  document.getElementById('ov-equity').textContent=fmt(eq2041);
+  document.getElementById('ov-nw').textContent=fmt(nw);
+}
+
+function showTab(name){
+  document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  event.target.classList.add('active');
+  updateAll();
+}
+
+['s-contrib','s-return','s-yield','s-appr','s-cal','s-zeke','s-ef-bal','s-ef-mo'].forEach(id=>{
+  document.getElementById(id).addEventListener('input',updateAll);
+});
+
+updateAll();
 </script>
 </body>
 </html>
