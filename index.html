@@ -61,7 +61,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
 </head>
 <body>
 <div style="max-width:900px;margin:0 auto">
- 
+
 <!-- Header -->
 <div style="margin-bottom:6px">
   <span class="tag" style="background:rgba(52,211,153,0.15);color:#34d399;border:1px solid rgba(52,211,153,0.3)">FAMILY WEALTH TRACKER</span>
@@ -69,7 +69,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
 <h1>Dee <span style="color:#34d399">&</span> Alanna</h1>
 <p style="color:#64748b;font-size:11px;margin:3px 0 6px">6227 Greeley Ct · The Pinery, Parker CO · Closed July 2026</p>
 <p style="color:#475569;font-size:11px;margin:0 0 18px">VA Comp $4,428/mo · $1,005,000 Home · Retire 2040–2042</p>
- 
+
 <!-- Tabs -->
 <div class="tab-bar">
   <button class="tab active" onclick="showTab('overview',this)">📊 Overview</button>
@@ -80,11 +80,11 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
   <button class="tab" onclick="showTab('networth',this)">💎 Net Worth</button>
   <button class="tab" onclick="showTab('checklist',this)">✅ Action Items</button>
 </div>
- 
+
 <!-- ═══ OVERVIEW ═══ -->
 <div id="tab-overview" class="section active">
   <h2>Monthly Budget & Retirement Picture</h2>
- 
+
   <!-- Milestone Banner -->
   <div class="card" style="background:linear-gradient(135deg,rgba(52,211,153,0.08),rgba(34,211,238,0.05));border-color:rgba(52,211,153,0.3);margin-bottom:12px">
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin-bottom:10px">🎉 MILESTONE — CLOSED ON HOME · BOUGHT BELOW APPRAISAL</div>
@@ -100,7 +100,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
       <span style="font-size:10px;color:#64748b"> · bought $15K below appraisal</span>
     </div>
   </div>
- 
+
   <!-- Budget -->
   <div class="card" style="border-color:rgba(52,211,153,0.15)">
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin-bottom:10px">MONTHLY INCOME — $12,228 TAKE-HOME (INCL. VA COMP)</div>
@@ -113,17 +113,17 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     <div class="div"></div>
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin:8px 0 4px">FUND ALLOCATIONS</div>
     <div class="row"><span style="color:#94a3b8">401K @ 10% <span style="font-size:9px;color:#475569">pre-tax · $1,813/mo total w/match</span></span><span style="color:#a78bfa">−$471 net</span></div>
-    <div class="row"><span style="color:#94a3b8">Roth IRA</span><span style="color:#f472b6">−$583</span></div>
-    <div class="row"><span style="color:#94a3b8">Brokerage (SCHD/VGT)</span><span style="color:#f472b6">−$317</span></div>
-    <div class="row"><span style="color:#94a3b8">Cal 529 · my529 Target 2032/33</span><span style="color:#f472b6">−$202</span></div>
-    <div class="row"><span style="color:#94a3b8">Zeke 529 · my529 Target 2044/45</span><span style="color:#f472b6">−$115</span></div>
-    <div class="row"><span style="color:#94a3b8">Emergency Fund</span><span style="color:#f472b6">−$400</span></div>
-    <div class="row"><span style="color:#94a3b8">Home Improvement Fund</span><span style="color:#f472b6">−$300</span></div>
-    <div class="row" style="font-weight:500"><span style="color:#e2e8f0">Total to Funds</span><span style="color:#f472b6">−$2,388</span></div>
+    <div class="row"><span style="color:#94a3b8">Roth IRA</span><span id="bud-roth" style="color:#f472b6">−$583</span></div>
+    <div class="row"><span style="color:#94a3b8">Brokerage (SCHD/VGT)</span><span id="bud-brok" style="color:#f472b6">−$317</span></div>
+    <div class="row"><span style="color:#94a3b8">Cal 529 · my529 Target 2032/33</span><span id="bud-cal" style="color:#f472b6">−$202</span></div>
+    <div class="row"><span style="color:#94a3b8">Zeke 529 · my529 Target 2044/45</span><span id="bud-zeke" style="color:#f472b6">−$115</span></div>
+    <div class="row"><span style="color:#94a3b8">Emergency Fund</span><span id="bud-ef" style="color:#f472b6">−$400</span></div>
+    <div class="row"><span style="color:#94a3b8">Home Improvement Fund</span><span id="bud-hi" style="color:#f472b6">−$300</span></div>
+    <div class="row" style="font-weight:500"><span style="color:#e2e8f0">Total to Funds</span><span id="bud-total" style="color:#f472b6">−$2,388</span></div>
     <div class="div"></div>
-    <div class="row"><span style="color:#e2e8f0;font-weight:500">Living Expenses</span><span style="color:#34d399;font-family:'Syne',sans-serif;font-size:22px;font-weight:800">$3,410</span></div>
+    <div class="row"><span style="color:#e2e8f0;font-weight:500">Living Expenses</span><span id="bud-living" style="color:#34d399;font-family:'Syne',sans-serif;font-size:22px;font-weight:800">$3,410</span></div>
   </div>
- 
+
   <!-- 401K Step-Up -->
   <div class="card" style="border-color:rgba(167,139,250,0.25);background:rgba(167,139,250,0.03)">
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin-bottom:12px">401K STEP-UP PLAN</div>
@@ -141,7 +141,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     </div>
     <div style="margin-top:10px;font-size:10px;color:#475569">Pre-tax steps cost ~22% less than they look — tax savings offset each increase.</div>
   </div>
- 
+
   <!-- Retirement projection -->
   <div class="card">
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin-bottom:10px">PROJECTED RETIREMENT INCOME BY 2041</div>
@@ -150,16 +150,16 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     <div class="div"></div>
     <div class="row"><span style="color:#e2e8f0;font-weight:500">Total Retirement Income</span><span style="color:#34d399;font-family:'Syne',sans-serif;font-size:22px;font-weight:800" id="ov-total">—</span></div>
   </div>
- 
+
   <div class="g3">
     <div class="card" style="text-align:center"><div class="stat-label">Portfolio 2041</div><div class="stat-val" style="color:#34d399" id="ov-port">—</div></div>
     <div class="card" style="text-align:center"><div class="stat-label">Home Equity 2041</div><div class="stat-val" style="color:#22d3ee" id="ov-equity">—</div></div>
     <div class="card" style="text-align:center"><div class="stat-label">Net Worth 2041</div><div class="stat-val" style="color:#a78bfa" id="ov-nw">—</div></div>
   </div>
- 
+
   <div class="note"><span style="color:#f59e0b">⚠ </span>Projections use historical averages. Not financial advice — consult a fee-only fiduciary advisor.</div>
 </div>
- 
+
 <!-- ═══ INVESTMENTS ═══ -->
 <div id="tab-investments" class="section">
   <h2>Investment Portfolio</h2>
@@ -174,19 +174,19 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     <input type="range" id="s-yield" min="2.5" max="6" step="0.1" value="4.0"/>
     <div class="hint">2.5% SCHD only → 6% JEPI heavy</div>
   </div>
- 
+
   <div class="card" id="inv-banner" style="display:flex;flex-wrap:wrap;gap:14px;align-items:center;justify-content:space-between">
     <div><div class="stat-label">Portfolio 2041</div><div class="stat-val" id="b-port" style="color:#34d399">—</div></div>
     <div><div class="stat-label">Monthly Dividends</div><div class="stat-val" id="b-divs" style="color:#34d399">—</div></div>
     <div><div class="stat-label">Total w/ VA</div><div class="stat-val" style="color:#e2e8f0" id="b-total">—</div></div>
     <span class="pill" id="b-status" style="font-size:11px;padding:5px 12px">—</span>
   </div>
- 
+
   <div class="card">
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin-bottom:12px">GROWTH TRAJECTORY</div>
     <canvas id="inv-chart" height="200"></canvas>
   </div>
- 
+
   <div class="card">
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin-bottom:10px">MILESTONES</div>
     <div style="overflow-x:auto">
@@ -194,7 +194,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
       <tbody id="milestone-body"></tbody></table>
     </div>
   </div>
- 
+
   <div class="g2">
     <div class="card">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
@@ -218,11 +218,11 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     </div>
   </div>
 </div>
- 
+
 <!-- ═══ HOME ═══ -->
 <div id="tab-home" class="section">
   <h2>Home Equity · 6227 Greeley Ct</h2>
- 
+
   <div class="card" style="background:rgba(34,211,238,0.04);border-color:rgba(34,211,238,0.2)">
     <div class="g4" style="margin-bottom:0">
       <div><div class="stat-label">Purchase</div><div class="stat-val" style="color:#22d3ee;font-size:18px">$1,005,000</div></div>
@@ -231,7 +231,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
       <div><div class="stat-label">Closed</div><div class="stat-val" style="color:#22d3ee;font-size:18px">Jul 2026</div></div>
     </div>
   </div>
- 
+
   <div class="card" style="border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.03)">
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin-bottom:10px">EXTRA PRINCIPAL PAYMENT</div>
     <div class="sl-row"><span>Extra Monthly Principal</span><span id="lbl-extra" style="color:#f59e0b">$0/mo</span></div>
@@ -243,13 +243,13 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
       <div><div class="stat-label">New Monthly</div><div class="stat-val" style="color:#f59e0b" id="new-payment">$6,397</div></div>
     </div>
   </div>
- 
+
   <div class="card">
     <div class="sl-row"><span>HOME APPRECIATION</span><span id="lbl-appr" style="color:#22d3ee">4.0%/yr</span></div>
     <input type="range" id="s-appr" min="2" max="7" step="0.5" value="4" style="background:rgba(34,211,238,0.2)"/>
     <div class="hint">2% slow market → 7% hot market (Parker CO avg ~4–5%)</div>
   </div>
- 
+
   <div class="card">
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin-bottom:12px">HOME VALUE vs MORTGAGE BALANCE</div>
     <canvas id="home-chart" height="200"></canvas>
@@ -259,7 +259,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
       <div style="display:flex;align-items:center;gap:6px;font-size:10px"><div style="width:10px;height:10px;border-radius:2px;background:#34d399"></div><span style="color:#64748b">Equity</span></div>
     </div>
   </div>
- 
+
   <div class="card">
     <div style="overflow-x:auto">
       <table><thead><tr><th>Year</th><th>Home Value</th><th>Mortgage Bal</th><th>Equity</th><th>Equity %</th></tr></thead>
@@ -267,7 +267,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     </div>
   </div>
 </div>
- 
+
 <!-- ═══ COLLEGE ═══ -->
 <div id="tab-college" class="section">
   <h2>529 & Education Benefits</h2>
@@ -291,7 +291,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
         <div class="stat-val" style="font-size:22px;color:#a78bfa" id="cal-proj">—</div></div>
       </div>
     </div>
- 
+
     <div class="card" style="border-color:rgba(52,211,153,0.3);background:rgba(52,211,153,0.03)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
         <span style="font-family:'Syne',sans-serif;font-size:16px;font-weight:800">Zeke <span style="color:#34d399">· 8 months</span></span>
@@ -312,12 +312,12 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
       </div>
     </div>
   </div>
- 
+
   <div class="note">
     <span style="color:#f59e0b">📋 Next Step: </span>File <strong style="color:#e2e8f0">VA Form 22-5490</strong> at va.gov now to activate Cal's Chapter 35 DEA — takes 2–3 months to approve. Don't delay — it's worth $56,664 over 3 years of college. Both kids' tuition covered by Hazlewood.
   </div>
 </div>
- 
+
 <!-- ═══ EMERGENCY ═══ -->
 <div id="tab-emergency" class="section">
   <h2>Emergency Fund</h2>
@@ -340,9 +340,9 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
       <div><div class="stat-label">Goal Date</div><div class="stat-val" style="color:#f472b6" id="ef-date">—</div></div>
     </div>
   </div>
- 
+
   <div class="note"><span style="color:#f59e0b">💡 </span>Keep in HYSA at ~4.5–5% — Fidelity Cash Management, Marcus by Goldman, or Schwab Bank. Critical on a $1M home with zero down — protect against year-one surprises.</div>
- 
+
   <h2>Home Improvement Fund · 6227 Greeley Ct</h2>
   <div class="card" style="border-color:rgba(245,158,11,0.3);background:rgba(245,158,11,0.03)">
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin-bottom:12px">TARGET REPAIRS: POPCORN CEILINGS · A/C · MISC</div>
@@ -362,7 +362,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     </div>
   </div>
 </div>
- 
+
 <!-- ═══ NET WORTH ═══ -->
 <div id="tab-networth" class="section">
   <h2>Total Net Worth Timeline</h2>
@@ -388,12 +388,12 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     </div>
   </div>
 </div>
- 
+
 <!-- ═══ CHECKLIST ═══ -->
 <div id="tab-checklist" class="section">
   <h2>Action Items</h2>
   <p style="color:#64748b;font-size:11px;margin-bottom:16px">Tap each item to mark complete. Progress saves on this device.</p>
- 
+
   <div style="font-size:9px;color:#f59e0b;letter-spacing:.06em;margin-bottom:8px">🔥 DO THIS WEEK</div>
   <div class="check-item" onclick="toggleCheck(this)" data-id="c1">
     <div class="check-box"></div>
@@ -407,7 +407,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     <div class="check-box"></div>
     <div><div class="check-title">Open Zeke's 529 at my529.org</div><div class="check-sub">Same process as Cal — second account.<br>Zeke = beneficiary · Select: Target Enrollment 2044/2045<br>Set auto-contribution: $115/mo</div><span class="check-tag" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2)">529</span></div>
   </div>
- 
+
   <div style="font-size:9px;color:#22d3ee;letter-spacing:.06em;margin:16px 0 8px">📋 DO THIS MONTH</div>
   <div class="check-item" onclick="toggleCheck(this)" data-id="c4">
     <div class="check-box"></div>
@@ -429,7 +429,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     <div class="check-box"></div>
     <div><div class="check-title">Open Taxable Brokerage at Schwab</div><div class="check-sub">Open individual brokerage account.<br>Set auto-invest $317/mo → SCHD + VGT split.<br>Enable DRIP on all positions.</div><span class="check-tag" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2)">INVESTMENTS</span></div>
   </div>
- 
+
   <div style="font-size:9px;color:#a78bfa;letter-spacing:.06em;margin:16px 0 8px">📅 ANNUAL REMINDERS</div>
   <div class="check-item" onclick="toggleCheck(this)" data-id="c9">
     <div class="check-box"></div>
@@ -447,7 +447,7 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     <div class="check-box"></div>
     <div><div class="check-title">2035 — Begin rotating VGT → JEPI</div><div class="check-sub">Start Phase 2 income transition. Trim VGT/QQQ, add JEPI for yield.<br>Target blended yield of 4%+ on full portfolio.</div><span class="check-tag" style="background:rgba(52,211,153,0.1);color:#34d399;border:1px solid rgba(52,211,153,0.2)">PHASE 2</span></div>
   </div>
- 
+
   <!-- Progress -->
   <div class="card" style="margin-top:16px;border-color:rgba(52,211,153,0.2)">
     <div style="font-size:9px;color:#64748b;letter-spacing:.06em;margin-bottom:8px">OVERALL PROGRESS</div>
@@ -455,16 +455,16 @@ td{padding:8px 8px;border-bottom:1px solid rgba(255,255,255,0.04);font-size:11px
     <div style="font-size:12px;color:#34d399;margin-top:6px" id="check-count">0 of 12 complete</div>
   </div>
 </div>
- 
+
 </div><!-- end max-width -->
- 
+
 <script>
 const VA=4428,MATCH=600,MORTGAGE=1005000,APPRAISED=1020000,RATE_M=5.75/100/12,N=360;
 const BASE_PMT=MORTGAGE*(RATE_M*(1+RATE_M)**N)/((1+RATE_M)**N-1);
- 
+
 function fmt(n){return n>=1000000?'$'+(n/1000000).toFixed(2)+'M':n>=1000?'$'+Math.round(n/1000)+'K':'$'+Math.round(n)}
 function fmtF(n){return '$'+Math.round(n).toLocaleString('en-US')}
- 
+
 function mortBal(y){
   let b=MORTGAGE;const p=BASE_PMT;
   for(let m=0;m<y*12;m++)b=b*(1+RATE_M)-p;
@@ -481,10 +481,10 @@ function proj529(mo,yrs,r=0.07){
   for(let m=0;m<yrs*12;m++)b=b*(1+mr)+mo;
   return Math.round(b);
 }
- 
+
 let iChart=null,hChart=null,nwChart=null;
 function destroyC(c){if(c){try{c.destroy()}catch(e){}}return null;}
- 
+
 function getV(){return{
   contrib:+document.getElementById('s-contrib').value,
   ret:+document.getElementById('s-return').value,
@@ -496,12 +496,33 @@ function getV(){return{
   efMo:+document.getElementById('s-ef-mo').value,
   extra:+document.getElementById('s-extra').value,
 };}
- 
-function updateAll(){const v=getV();uInv(v);uHome(v);uCollege(v);uEF(v);uNW(v);uOverview(v);}
- 
+
+function updateAll(){const v=getV();uBudget(v);uInv(v);uHome(v);uCollege(v);uEF(v);uNW(v);uOverview(v);}
+
+function uBudget(v){
+  const INCOME=12228,HOUSING=6430,K401_NET=471;
+  // Roth + brokerage = contrib out of pocket (default $900 split $583/$317)
+  const roth=583,brok=Math.max(0,v.contrib-roth);
+  const ef=v.efMo,hi=300;
+  const calMo=v.cal,zekeMo=v.zeke;
+  const totalFunds=K401_NET+roth+brok+calMo+zekeMo+ef+hi;
+  const living=INCOME-HOUSING-totalFunds;
+  document.getElementById('bud-roth').textContent='−$'+roth.toLocaleString();
+  document.getElementById('bud-brok').textContent='−$'+brok.toLocaleString();
+  document.getElementById('bud-cal').textContent='−$'+calMo.toLocaleString();
+  document.getElementById('bud-zeke').textContent='−$'+zekeMo.toLocaleString();
+  document.getElementById('bud-ef').textContent='−$'+ef.toLocaleString();
+  document.getElementById('bud-hi').textContent='−$'+hi.toLocaleString();
+  document.getElementById('bud-total').textContent='−$'+Math.round(totalFunds).toLocaleString();
+  const livingEl=document.getElementById('bud-living');
+  livingEl.textContent='$'+Math.round(living).toLocaleString();
+  livingEl.style.color=living<2000?'#f59e0b':living<1000?'#f472b6':'#34d399';
+}
+
 function uInv(v){
   document.getElementById('lbl-contrib').textContent=fmtF(v.contrib)+'/mo';
-  document.getElementById('hint-contrib').textContent='Total w/ employer match: '+fmtF(v.contrib+MATCH)+'/mo';
+  const roth=583,brok=Math.max(0,v.contrib-roth);
+  document.getElementById('hint-contrib').textContent=`Roth IRA: $${roth} · Brokerage: $${brok} · Total w/match: ${fmtF(v.contrib+MATCH)}/mo`;
   document.getElementById('lbl-return').textContent=v.ret+'%';
   document.getElementById('lbl-yield').textContent=v.yld.toFixed(1)+'%';
   const data=projInv(v.contrib,v.ret,16);
@@ -535,7 +556,7 @@ function uInv(v){
     tb.appendChild(tr);
   });
 }
- 
+
 function uHome(v){
   document.getElementById('lbl-appr').textContent=v.appr.toFixed(1)+'%/yr';
   document.getElementById('lbl-extra').textContent='$'+v.extra.toLocaleString()+'/mo';
@@ -568,7 +589,7 @@ function uHome(v){
     tb.appendChild(tr);
   });
 }
- 
+
 function uCollege(v){
   document.getElementById('lbl-cal').textContent='$'+v.cal+'/mo';
   document.getElementById('lbl-zeke').textContent='$'+v.zeke+'/mo';
@@ -577,7 +598,7 @@ function uCollege(v){
   calEl.textContent=fmt(calP);calEl.style.color=calP>=18000?'#34d399':'#f59e0b';
   document.getElementById('zeke-proj').textContent=fmt(zekeP);
 }
- 
+
 function uEF(v){
   document.getElementById('lbl-ef-bal').textContent=fmtF(v.efBal);
   document.getElementById('lbl-ef-mo').textContent=fmtF(v.efMo)+'/mo';
@@ -600,7 +621,7 @@ function uEF(v){
   if(hiMo>0){const d=new Date();d.setMonth(d.getMonth()+hiMo);document.getElementById('hi-date').textContent=d.toLocaleDateString('en-US',{month:'short',year:'numeric'});}
   else document.getElementById('hi-date').textContent='Funded! 🎉';
 }
- 
+
 function uNW(v){
   const invData=projInv(v.contrib,v.ret,16);
   const years=Array.from({length:17},(_,i)=>2026+i);
@@ -630,7 +651,7 @@ function uNW(v){
     tb.appendChild(tr);
   });
 }
- 
+
 function uOverview(v){
   const invData=projInv(v.contrib,v.ret,16);
   const goal=invData.filter(d=>d.year>=2040&&d.year<=2042);
@@ -645,7 +666,7 @@ function uOverview(v){
   document.getElementById('ov-equity').textContent=fmt(eq41);
   document.getElementById('ov-nw').textContent=fmt(nw);
 }
- 
+
 function showTab(name,btn){
   document.querySelectorAll('.section').forEach(s=>s.classList.remove('active'));
   document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
@@ -653,7 +674,7 @@ function showTab(name,btn){
   btn.classList.add('active');
   updateAll();
 }
- 
+
 // Checklist persistence
 function loadChecks(){
   const saved=JSON.parse(localStorage.getItem('wt-checks')||'{}');
@@ -679,11 +700,11 @@ function updateCheckProgress(){
   document.getElementById('check-progress').style.width=(done/total*100)+'%';
   document.getElementById('check-count').textContent=done+' of '+total+' complete';
 }
- 
+
 ['s-contrib','s-return','s-yield','s-appr','s-cal','s-zeke','s-ef-bal','s-ef-mo','s-hi-bal','s-extra'].forEach(id=>{
   document.getElementById(id).addEventListener('input',updateAll);
 });
- 
+
 loadChecks();
 updateAll();
 </script>
